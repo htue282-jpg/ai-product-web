@@ -121,16 +121,20 @@
                     <div id="content-text" class="space-y-4">
                         <div>
                             <label class="block text-[10px] font-black text-purple-400 mb-1 ml-1 uppercase tracking-widest">Tên sản phẩm</label>
-                            <input type="text" id="prodName" placeholder="Ví dụ: Laptop Dell XPS 13" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition text-white font-bold">
+                            <input type="text" id="productName" placeholder="Ví dụ: Laptop Dell XPS 13" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition text-white font-bold">
                         </div>
                         <div>
                             <label class="block text-[10px] font-black text-purple-400 mb-1 ml-1 uppercase tracking-widest">Tính năng chính</label>
-                            <textarea id="prodFeatures" rows="2" placeholder="Ví dụ: Chip M2, Màn hình 4K, Pin 10h..." class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition text-white font-bold resize-none custom-scroll"></textarea>
+                            <textarea id="productFeature" rows="2" placeholder="Ví dụ: Chip M2, Màn hình 4K, Pin 10h..." class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition text-white font-bold resize-none custom-scroll"></textarea>
                         </div>
                         <div>
                             <label class="block text-[10px] font-black text-purple-400 mb-1 ml-1 uppercase tracking-widest">Từ khóa SEO</label>
-                            <input type="text" id="prodKeywords" placeholder="Ví dụ: laptop văn phòng, dell giá rẻ..." class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition text-white font-bold">
+                            <input type="text" id="productKeyword" placeholder="Ví dụ: laptop văn phòng, dell giá rẻ..." class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition text-white font-bold">
                         </div>
+                        <button onclick="generateDescription()" 
+class="w-full mt-4 bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-xl font-bold transition">
+TẠO MÔ TẢ AI
+</button>
                     </div>
 
                     <!-- Content: Chế độ Hình ảnh -->
@@ -322,9 +326,9 @@
 
             async function generateDescription() {
 
-const name = document.getElementById('prodName').value;
-const features = document.getElementById('prodFeatures').value;
-const keywords = document.getElementById('prodKeywords').value;
+const name = document.getElementById('productName').value;
+const features = document.getElementById('productFeature').value;
+const keywords = document.getElementById('productKeyword').value;
 
 const resultText = document.getElementById('resultText');
 
