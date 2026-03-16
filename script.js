@@ -1,44 +1,41 @@
-async function callAI(prompt){
-    async function generateDescription(){
+async function generateDescription(){
 
-const name = document.getElementById("productName").value;
-const feature = document.getElementById("productFeature").value;
-const keyword = document.getElementById("productKeyword").value;
+const name = document.getElementById("prodName").value;
+const features = document.getElementById("prodFeatures").value;
+const keywords = document.getElementById("prodKeywords").value;
+
+const resultText = document.getElementById("resultText");
+const genBtn = document.getElementById("genBtn");
+
+if(!name){
+alert("Vui lòng nhập tên sản phẩm");
+return;
+}
+
+genBtn.innerText = "ĐANG PHÂN TÍCH SEO...";
+genBtn.disabled = true;
 
 const prompt = `
-Viết mô tả sản phẩm chuẩn SEO.
+Viết mô tả bán hàng hấp dẫn khoảng 150 chữ.
 
 Tên sản phẩm: ${name}
-Tính năng: ${feature}
-Từ khóa SEO: ${keyword}
-
-Viết chuyên nghiệp, hấp dẫn.
+Tính năng: ${features}
+Từ khóa SEO: ${keywords}
 `;
+
+try{
 
 const result = await callAI(prompt);
 
-document.getElementById("resultText").innerText = result;
+resultText.innerText = result;
+
+}catch(err){
+
+resultText.innerText = "Có lỗi khi gọi AI";
 
 }
 
-const response = await fetch("/api/ai",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-contents:[
-{
-parts:[
-{text:prompt}
-]
-}
-]
-})
-});
-
-const data = await response.json();
-
-return data.candidates[0].content.parts[0].text;
+genBtn.innerText = "Tạo mô tả ngay";
+genBtn.disabled = false;
 
 }

@@ -121,20 +121,16 @@
                     <div id="content-text" class="space-y-4">
                         <div>
                             <label class="block text-[10px] font-black text-purple-400 mb-1 ml-1 uppercase tracking-widest">Tên sản phẩm</label>
-                            <input type="text" id="productName" placeholder="Ví dụ: Laptop Dell XPS 13" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition text-white font-bold">
+                            <input type="text" id="prodName" placeholder="Ví dụ: Laptop Dell XPS 13" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition text-white font-bold">
                         </div>
                         <div>
                             <label class="block text-[10px] font-black text-purple-400 mb-1 ml-1 uppercase tracking-widest">Tính năng chính</label>
-                            <textarea id="productFeature" rows="2" placeholder="Ví dụ: Chip M2, Màn hình 4K, Pin 10h..." class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition text-white font-bold resize-none custom-scroll"></textarea>
+                            <textarea id="prodFeatures" rows="2" placeholder="Ví dụ: Chip M2, Màn hình 4K, Pin 10h..." class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition text-white font-bold resize-none custom-scroll"></textarea>
                         </div>
                         <div>
                             <label class="block text-[10px] font-black text-purple-400 mb-1 ml-1 uppercase tracking-widest">Từ khóa SEO</label>
-                            <input type="text" id="productKeyword" placeholder="Ví dụ: laptop văn phòng, dell giá rẻ..." class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition text-white font-bold">
+                            <input type="text" id="prodKeywords" placeholder="Ví dụ: laptop văn phòng, dell giá rẻ..." class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition text-white font-bold">
                         </div>
-                        <button onclick="generateDescription()" 
-class="w-full mt-4 bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-xl font-bold transition">
-TẠO MÔ TẢ AI
-</button>
                     </div>
 
                     <!-- Content: Chế độ Hình ảnh -->
@@ -296,30 +292,59 @@ TẠO MÔ TẢ AI
             document.getElementById(`${type}Modal`).classList.remove('active');
         }
 
-        
-            async function generateDescription() {
-
-const name = document.getElementById('productName').value;
-const features = document.getElementById('productFeature').value;
-const keywords = document.getElementById('productKeyword').value;
-
-const resultText = document.getElementById('resultText');
-
-const prompt = `
-Viết mô tả bán hàng hấp dẫn khoảng 150 chữ.
-
-Tên sản phẩm: ${name}
-Tính năng: ${features}
-Từ khóa SEO: ${keywords}
-`;
-
-const result = await callAI(prompt);
-
-resultText.innerText = result;
-
-}
+        function generateDescription() {
+            const name = document.getElementById('prodName').value;
+            const features = document.getElementById('prodFeatures').value;
+            const keywords = document.getElementById('prodKeywords').value;
+            const hasImage = document.getElementById('imageInput').files.length > 0;
             
-        
+            const resultArea = document.getElementById('resultArea');
+            const resultPlaceholder = document.getElementById('resultPlaceholder');
+            const resultText = document.getElementById('resultText');
+            const genBtn = document.getElementById('genBtn');
+
+            if (currentMode === 'text' && !name) {
+                alert("Vui lòng nhập tên sản phẩm!");
+                return;
+            }
+            if (currentMode === 'image' && !hasImage) {
+                alert("Vui lòng tải ảnh sản phẩm lên!");
+                return;
+            }
+
+            genBtn.innerText = "ĐANG PHÂN TÍCH SEO...";
+            genBtn.disabled = true;
+            
+            resultPlaceholder.classList.add('hidden');
+            resultArea.classList.remove('hidden');
+            resultArea.classList.add('animate-pulse');
+            resultText.innerHTML = "AI đang xây dựng mô tả chuyên nghiệp tích hợp từ khóa...";
+
+            setTimeout(() => {
+                resultArea.classList.remove('animate-pulse');
+                genBtn.innerText = "TẠO MÔ TẢ NGAY";
+                genBtn.disabled = false;
+
+                let description = "";
+                let logName = name || "Sản phẩm từ ảnh";
+
+                if (currentMode === 'text') {
+                    description = `Khám phá sức mạnh vượt trội của ${name}. Với các tính năng đột phá như ${features || 'công nghệ hiện đại, hiệu suất tối ưu'}, đây chính là giải pháp hoàn hảo cho nhu cầu của bạn.\n\nSản phẩm không chỉ đáp ứng tiêu chuẩn khắt khe về chất lượng mà còn được tối ưu tìm kiếm qua các từ khóa: ${keywords || 'uy tín, chất lượng cao'}. \n\nĐừng bỏ lỡ cơ hội sở hữu ${name} với mức giá ưu đãi nhất ngay hôm nay để trải nghiệm sự khác biệt và đẳng cấp thực sự.`;
+                } else {
+                    description = `[PHÂN TÍCH HÌNH ẢNH] Qua nhận diện thị giác máy tính, đây là sản phẩm cao cấp với đường nét thiết kế tinh xảo, hiện đại. Sản phẩm tập trung vào trải nghiệm người dùng tối ưu và phong cách tối giản.\n\nGợi ý từ khóa SEO: hàng chính hãng, thiết kế sang trọng, độ bền cao, xu hướng 2024. Mô tả này đã được AI điều chỉnh ngữ điệu để tăng tỷ lệ chuyển đổi.`;
+                }
+                
+                resultText.innerText = description;
+
+                historyData.unshift({
+                    id: Date.now(),
+                    name: logName,
+                    mode: currentMode === 'text' ? '📝 SEO CONTENT' : '🖼️ VISUAL SEO',
+                    content: description,
+                    date: new Date().toLocaleTimeString()
+                });
+            }, 1800);
+        }
 
         function copyToClipboard(textToCopy = null) {
             const text = textToCopy || document.getElementById('resultText').innerText;
@@ -368,7 +393,8 @@ resultText.innerText = result;
             }
         }
     </script>
-    <script src="script.js"></script>
+<script src="script.js"></script>
+<script src="ai.js"></script>
 </body>
 </html>
 
