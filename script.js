@@ -18,6 +18,6 @@ parts:[
 
 const data = await response.json();
 
-return data.candidates?.[0]?.content?.parts?.[0]?.text || "AI không phản hồi";
+return data.candidates[0].content.parts[0].text;
 
 }
