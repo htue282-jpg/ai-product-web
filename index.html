@@ -340,9 +340,9 @@ Tính năng: ${features}
 Từ khóa SEO: ${keywords}
 `;
 
-const description = await callAI(prompt);
+const result = await callAI(prompt);
 
-resultText.innerText = description;
+resultText.innerText = result;
 
 }
             
