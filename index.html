@@ -296,34 +296,7 @@ TẠO MÔ TẢ AI
             document.getElementById(`${type}Modal`).classList.remove('active');
         }
 
-        function generateDescription() {
-            const name = document.getElementById('prodName').value;
-            const features = document.getElementById('prodFeatures').value;
-            const keywords = document.getElementById('prodKeywords').value;
-            const hasImage = document.getElementById('imageInput').files.length > 0;
-            
-            const resultArea = document.getElementById('resultArea');
-            const resultPlaceholder = document.getElementById('resultPlaceholder');
-            const resultText = document.getElementById('resultText');
-            const genBtn = document.getElementById('genBtn');
-
-            if (currentMode === 'text' && !name) {
-                alert("Vui lòng nhập tên sản phẩm!");
-                return;
-            }
-            if (currentMode === 'image' && !hasImage) {
-                alert("Vui lòng tải ảnh sản phẩm lên!");
-                return;
-            }
-
-            genBtn.innerText = "ĐANG PHÂN TÍCH SEO...";
-            genBtn.disabled = true;
-            
-            resultPlaceholder.classList.add('hidden');
-            resultArea.classList.remove('hidden');
-            resultArea.classList.add('animate-pulse');
-            resultText.innerHTML = "AI đang xây dựng mô tả chuyên nghiệp tích hợp từ khóa...";
-
+        
             async function generateDescription() {
 
 const name = document.getElementById('productName').value;
@@ -346,7 +319,7 @@ resultText.innerText = result;
 
 }
             
-        }
+        
 
         function copyToClipboard(textToCopy = null) {
             const text = textToCopy || document.getElementById('resultText').innerText;
